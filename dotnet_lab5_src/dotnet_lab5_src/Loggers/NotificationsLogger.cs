@@ -20,7 +20,7 @@ public class NotificationsLogger : NotifyPropertyChanged, ILogger<string>
         private set
         {
             _notifications = value;
-            OnPropertyChanged(nameof(Notifications));
+            OnPropertyChanged("Notifications");
         } 
     }
 

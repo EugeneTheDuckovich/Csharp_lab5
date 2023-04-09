@@ -16,7 +16,6 @@ public class LibraryViewModel
     {
         get => _library.BooksShelves;
     }
-
     public ObservableCollection<Order> Orders
     { 
         get => _library.Orders; 
@@ -25,6 +24,7 @@ public class LibraryViewModel
     public string Notifications
     {
         get => NotificationsLogger.Notifications;
+        set { }
     }
 
     public LibraryViewModel()

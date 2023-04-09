@@ -1,9 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.Json.Serialization;
-using System.Threading.Tasks;
 
 namespace dotnet_lab5_src.Models;
 
@@ -31,6 +26,6 @@ public class Order : IEquatable<Order>
 
     public override string ToString()
     {
-        return $"client: {Client}, book: {Book.Author}";
+        return $"client: {Client}, book: \"{Book.Name}\"";
     }
 }
