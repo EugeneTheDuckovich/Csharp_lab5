@@ -20,16 +20,20 @@ public class BookLibrary
     private object _lockObject;
     private bool _isAcceptingClients;
 
-    private bool IsAcceptingClients
+    public bool IsAcceptingClients
     {
         get => _isAcceptingClients;
         set
         {
-            _isAcceptingClients = value;
             lock(_lockObject)
             {
-                if (!value) _notificationsLogger.Log("library stopped accepting clients");
-                else _notificationsLogger.Log("library started accepting clients");
+                _isAcceptingClients = value;
+                if (!_isAcceptingClients) _notificationsLogger.Log("library stopped accepting clients");
+                else
+                {
+                    StartGeneratingClients();
+                    _notificationsLogger.Log("library started accepting clients");
+                }
             }
         }
     }
@@ -119,7 +123,7 @@ public class BookLibrary
 
     public async Task StartGeneratingClients()
     {
-        while (true)
+        while (IsAcceptingClients)
         {
             await Task.Delay(2000);
 
@@ -127,6 +131,10 @@ public class BookLibrary
 
             foreach (var client in clients)
             {
+                if(!IsAcceptingClients)
+                {
+                    return;
+                }
                 var availableBooks = GetAvailableBooks();
 
                 if (availableBooks.Any())
@@ -136,7 +144,6 @@ public class BookLibrary
                     await TryMakeOrder(client, book);
                 }                
             }
-            int i = 1;
         }
     }
 

@@ -26,6 +26,6 @@ public class Order : IEquatable<Order>
 
     public override string ToString()
     {
-        return $"client: {Client}, book: \"{Book.Name}\"";
+        return $"{Client}, \"{Book.Name}\"";
     }
 }

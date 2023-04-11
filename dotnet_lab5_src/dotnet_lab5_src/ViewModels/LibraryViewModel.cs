@@ -1,13 +1,16 @@
 ﻿using dotnet_lab5_src.Library;
 using dotnet_lab5_src.Loggers;
 using dotnet_lab5_src.Models;
+using dotnet_lab5_src.Utilities;
+using OnlineChessLibrary.Utilities;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace dotnet_lab5_src.ViewModels;
 
-public class LibraryViewModel
+public class LibraryViewModel : NotifyPropertyChanged
 {
     private BookLibrary _library;
     public NotificationsLogger NotificationsLogger { get; }
@@ -24,7 +27,16 @@ public class LibraryViewModel
     public string Notifications
     {
         get => NotificationsLogger.Notifications;
-        set { }
+    }
+
+    public bool IsAcceptingClients
+    {
+        get => _library.IsAcceptingClients;
+        set
+        {
+            _library.IsAcceptingClients = value;
+            OnPropertyChanged();
+        }
     }
 
     public LibraryViewModel()
@@ -44,4 +56,9 @@ public class LibraryViewModel
         Task.Run(() => _library.StartLogging());
         Task.Run(() => _library.StartGeneratingClients());
     }
+
+    public ICommand ToggleLibrary => new RelayCommand(p =>
+    {
+        IsAcceptingClients = !IsAcceptingClients;
+    });
 }
